@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import {Color} from "three";
 
 export default function example() {
     // Renderer
@@ -9,7 +8,6 @@ export default function example() {
         antialias: true
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    // console.log(window.devicePixelRatio);
     renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
     // Scene
@@ -22,14 +20,19 @@ export default function example() {
         0.1, // near
         1000 // far
     );
-    camera.position.x = 1;
+    camera.position.x = 2;
     camera.position.y = 2;
     camera.position.z = 5;
     scene.add(camera);
 
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.x = 1;
+    light.position.z = 2;
+    scene.add(light);
+
     // Mesh
     const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({
+    const material = new THREE.MeshStandardMaterial({
         color: 'red'
     });
     const mesh = new THREE.Mesh(geometry, material);

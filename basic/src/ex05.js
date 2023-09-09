@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import {Color} from "three";
 
 export default function example() {
     // Renderer
@@ -9,7 +8,6 @@ export default function example() {
         antialias: true
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    // console.log(window.devicePixelRatio);
     renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
     // Scene
@@ -22,21 +20,35 @@ export default function example() {
         0.1, // near
         1000 // far
     );
-    camera.position.x = 1;
-    camera.position.y = 2;
     camera.position.z = 5;
     scene.add(camera);
 
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.x = 1;
+    light.position.z = 2;
+    scene.add(light);
+
     // Mesh
     const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({
+    const material = new THREE.MeshStandardMaterial({
         color: 'red'
     });
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
     // 그리기
-    renderer.render(scene, camera);
+    function draw() {
+        // mesh.rotation.y += 0.1;
+        mesh.rotation.y += THREE.MathUtils.degToRad(1);
+        mesh.position.y += 0.01;
+        if(mesh.position.y > 3) {
+            mesh.position.y = 0;
+        }
+        renderer.render(scene, camera);
+
+        // requestAnimationFrame(draw);
+        renderer.setAnimationLoop(draw);
+    }
 
     function setSize() {
         // 카메라
@@ -49,4 +61,6 @@ export default function example() {
 
     // 이벤트
     window.addEventListener('resize', setSize);
+
+    draw();
 }

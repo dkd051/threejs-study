@@ -1,19 +1,21 @@
-import * as THREE from 'three';
-import {Color} from "three";
-
 export default function example() {
     // Renderer
     const canvas = document.querySelector('#three-canvas');
     const renderer = new THREE.WebGLRenderer({
         canvas,
-        antialias: true
+        antialias: true,
+        alpha: true
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    // console.log(window.devicePixelRatio);
     renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
+    // renderer.setClearAlpha(0.5);
+    // renderer.setClearColor(0x00ff00);
+    // renderer.setClearColor('#00ff00');
+    // renderer.setClearAlpha(0.5);
 
     // Scene
     const scene = new THREE.Scene();
+    scene.background = new THREE.Color('blue');
 
     // Camera
     const camera = new THREE.PerspectiveCamera(
