@@ -37,16 +37,19 @@ export default function example() {
     scene.add(mesh);
 
     // 그리기
-    const clock = new THREE.Clock();
-
+    // const clock = new THREE.Clock();
+    let oldTime = Date.now();
     function draw() {
         // console.log(clock.getElapsedTime());
-        const time = clock.getElapsedTime();
-
+        // const time = clock.getElapsedTime();
+        // const delta = clock.getDelta();
+        const newTime = Date.now();
+        const delta = newTime - oldTime;
+        oldTime = newTime;
         // mesh.rotation.y += 0.1;
         // mesh.rotation.y += THREE.MathUtils.degToRad(1);
-        mesh.rotation.y = 2 * time;
-        mesh.position.y += time;
+        mesh.rotation.y += delta * 0.005;
+        mesh.position.y += delta * 0.001;
         if(mesh.position.y > 3) {
             mesh.position.y = 0;
         }

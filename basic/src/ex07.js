@@ -12,6 +12,7 @@ export default function example() {
 
     // Scene
     const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog('black', 3, 7);
 
     // Camera
     const camera = new THREE.PerspectiveCamera(
@@ -20,12 +21,14 @@ export default function example() {
         0.1, // near
         1000 // far
     );
+    camera.position.y = 1;
     camera.position.z = 5;
     scene.add(camera);
 
     const light = new THREE.DirectionalLight(0xffffff, 1);
     light.position.x = 1;
-    light.position.z = 2;
+    light.position.y = 3;
+    light.position.z = 5;
     scene.add(light);
 
     // Mesh
@@ -33,23 +36,29 @@ export default function example() {
     const material = new THREE.MeshStandardMaterial({
         color: 'red'
     });
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+
+    const meshes = [];
+    let mesh;
+    for (let i = 0; i < 10; i++) {
+        mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = Math.random() * 5 - 2.5;
+        mesh.position.z = Math.random() * 5 - 2.5;
+        scene.add(mesh);
+        meshes.push(mesh);
+    }
 
     // 그리기
-    const clock = new THREE.Clock();
-
+    // const clock = new THREE.Clock();
+    let oldTime = Date.now();
     function draw() {
-        // console.log(clock.getElapsedTime());
-        const time = clock.getElapsedTime();
+        const newTime = Date.now();
+        const delta = newTime - oldTime;
+        oldTime = newTime;
 
-        // mesh.rotation.y += 0.1;
-        // mesh.rotation.y += THREE.MathUtils.degToRad(1);
-        mesh.rotation.y = 2 * time;
-        mesh.position.y += time;
-        if(mesh.position.y > 3) {
-            mesh.position.y = 0;
-        }
+        meshes.forEach(item => {
+            item.rotation.y += delta * 0.001;
+        })
+
         renderer.render(scene, camera);
 
         // requestAnimationFrame(draw);

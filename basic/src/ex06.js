@@ -41,12 +41,12 @@ export default function example() {
 
     function draw() {
         // console.log(clock.getElapsedTime());
-        const time = clock.getElapsedTime();
-
+        // const time = clock.getElapsedTime();
+        const delta = clock.getDelta();
         // mesh.rotation.y += 0.1;
         // mesh.rotation.y += THREE.MathUtils.degToRad(1);
-        mesh.rotation.y = 2 * time;
-        mesh.position.y += time;
+        mesh.rotation.y += 2 * delta;
+        mesh.position.y += delta;
         if(mesh.position.y > 3) {
             mesh.position.y = 0;
         }
